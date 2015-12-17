@@ -1,0 +1,523 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MercuryModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="AcademicTerm">
+    <Key>
+      <PropertyRef Name="AcademicTermID" />
+    </Key>
+    <Property Name="AcademicTermID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AcademicTermName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="AcademicYearID" Type="int" Nullable="false" />
+    <Property Name="Description" Type="varchar(max)" />
+    <Property Name="StartDate" Type="datetime" Nullable="false" />
+    <Property Name="EndDate" Type="datetime" Nullable="false" />
+    <Property Name="ActiveDate" Type="datetime" Nullable="false" />
+    <Property Name="InactiveDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="AcademicYear">
+    <Key>
+      <PropertyRef Name="AcademicYearID" />
+    </Key>
+    <Property Name="AcademicYearID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AcademicYearName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Description" Type="varchar(max)" />
+    <Property Name="StartDate" Type="datetime" Nullable="false" />
+    <Property Name="EndDate" Type="datetime" Nullable="false" />
+    <Property Name="ActiveDate" Type="datetime" Nullable="false" />
+    <Property Name="InactiveDate" Type="datetime" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'Mercury.dbo.Attendance' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="Attendance">
+    <Key>
+      <PropertyRef Name="AttendanceId" />
+      <PropertyRef Name="StudentId" />
+      <PropertyRef Name="AttendanceTypeId" />
+      <PropertyRef Name="AttendanceDate" />
+      <PropertyRef Name="ActiveDate" />
+    </Key>
+    <Property Name="AttendanceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StudentId" Type="int" Nullable="false" />
+    <Property Name="AttendanceTypeId" Type="int" Nullable="false" />
+    <Property Name="Comment" Type="varchar(max)" />
+    <Property Name="Value" Type="decimal" Precision="5" Scale="2" />
+    <Property Name="AttendanceDate" Type="datetime" Nullable="false" />
+    <Property Name="ActiveDate" Type="datetime" Nullable="false" />
+    <Property Name="InactiveDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="AttendanceType">
+    <Key>
+      <PropertyRef Name="AttendanceTypeId" />
+    </Key>
+    <Property Name="AttendanceTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Description" Type="varchar(max)" Nullable="false" />
+    <Property Name="ActiveDate" Type="datetime" Nullable="false" />
+    <Property Name="InactiveDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="District">
+    <Key>
+      <PropertyRef Name="DistrictId" />
+    </Key>
+    <Property Name="DistrictId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DistrictName" Type="varchar" MaxLength="200" Nullable="false" />
+    <Property Name="Description" Type="varchar(max)" Nullable="false" />
+    <Property Name="Address1" Type="varchar" MaxLength="200" Nullable="false" />
+    <Property Name="Address2" Type="varchar" MaxLength="200" />
+    <Property Name="City" Type="varchar" MaxLength="200" Nullable="false" />
+    <Property Name="State" Type="char" MaxLength="2" Nullable="false" />
+    <Property Name="PostalCode" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="PointOfContact" Type="int" Nullable="false" />
+    <Property Name="ActiveDate" Type="datetime" Nullable="false" />
+    <Property Name="InactiveDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Phone">
+    <Key>
+      <PropertyRef Name="PhoneId" />
+    </Key>
+    <Property Name="PhoneId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Value" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Ext" Type="varchar" MaxLength="15" />
+    <Property Name="Comment" Type="varchar(max)" />
+    <Property Name="ActiveDate" Type="datetime" Nullable="false" />
+    <Property Name="InactiveDate" Type="datetime" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'Mercury.dbo.PhoneDistrict_X' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="PhoneDistrict_X">
+    <Key>
+      <PropertyRef Name="PhoneId" />
+      <PropertyRef Name="DistrictId" />
+      <PropertyRef Name="Index" />
+      <PropertyRef Name="Primary" />
+      <PropertyRef Name="ActiveDate" />
+    </Key>
+    <Property Name="PhoneId" Type="int" Nullable="false" />
+    <Property Name="DistrictId" Type="int" Nullable="false" />
+    <Property Name="Index" Type="int" Nullable="false" />
+    <Property Name="Primary" Type="bit" Nullable="false" />
+    <Property Name="ActiveDate" Type="datetime" Nullable="false" />
+    <Property Name="InactiveDate" Type="datetime" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'Mercury.dbo.PhoneSchool_X' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="PhoneSchool_X">
+    <Key>
+      <PropertyRef Name="PhoneId" />
+      <PropertyRef Name="SchoolId" />
+      <PropertyRef Name="Index" />
+      <PropertyRef Name="Primary" />
+      <PropertyRef Name="ActiveDate" />
+    </Key>
+    <Property Name="PhoneId" Type="int" Nullable="false" />
+    <Property Name="SchoolId" Type="int" Nullable="false" />
+    <Property Name="Index" Type="int" Nullable="false" />
+    <Property Name="Primary" Type="bit" Nullable="false" />
+    <Property Name="ActiveDate" Type="datetime" Nullable="false" />
+    <Property Name="InactiveDate" Type="datetime" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'Mercury.dbo.PhoneStaff_X' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="PhoneStaff_X">
+    <Key>
+      <PropertyRef Name="PhoneId" />
+      <PropertyRef Name="StaffId" />
+      <PropertyRef Name="Index" />
+      <PropertyRef Name="Primary" />
+      <PropertyRef Name="ActiveDate" />
+    </Key>
+    <Property Name="PhoneId" Type="int" Nullable="false" />
+    <Property Name="StaffId" Type="int" Nullable="false" />
+    <Property Name="Index" Type="int" Nullable="false" />
+    <Property Name="Primary" Type="bit" Nullable="false" />
+    <Property Name="ActiveDate" Type="datetime" Nullable="false" />
+    <Property Name="InactiveDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="School">
+    <Key>
+      <PropertyRef Name="SchoolId" />
+    </Key>
+    <Property Name="SchoolId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DistrictId" Type="int" Nullable="false" />
+    <Property Name="SchoolName" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="PointOfContact" Type="varchar" MaxLength="300" />
+    <Property Name="Email" Type="varchar" MaxLength="500" />
+    <Property Name="Address1" Type="varchar" MaxLength="200" Nullable="false" />
+    <Property Name="Address2" Type="varchar" MaxLength="200" />
+    <Property Name="City" Type="varchar" MaxLength="200" Nullable="false" />
+    <Property Name="State" Type="char" MaxLength="2" Nullable="false" />
+    <Property Name="PostalCode" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="ActiveDate" Type="datetime" Nullable="false" />
+    <Property Name="InactiveDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Staff">
+    <Key>
+      <PropertyRef Name="StaffId" />
+    </Key>
+    <Property Name="StaffId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FirstName" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="LastName" Type="varchar" MaxLength="200" Nullable="false" />
+    <Property Name="Title" Type="varchar" MaxLength="200" Nullable="false" />
+    <Property Name="OtherSystemId" Type="varchar" MaxLength="50" />
+    <Property Name="Email" Type="varchar" MaxLength="500" Nullable="false" />
+    <Property Name="ActiveDate" Type="datetime" Nullable="false" />
+    <Property Name="InactiveDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Student">
+    <Key>
+      <PropertyRef Name="StudentID" />
+    </Key>
+    <Property Name="StudentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="SISNumber" Type="varchar" MaxLength="50" />
+    <Property Name="RTTPEnrollmentDt" Type="datetime" />
+    <Property Name="TransferDt" Type="datetime" />
+    <Property Name="FirstAttendanceDt" Type="datetime" />
+    <Property Name="DropDt" Type="datetime" />
+    <Property Name="BirthDt" Type="datetime" />
+    <Property Name="Grade" Type="int" />
+    <Property Name="SchoolId" Type="int" Nullable="false" />
+    <Property Name="ActiveDate" Type="datetime" Nullable="false" />
+    <Property Name="InactiveDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Suspension">
+    <Key>
+      <PropertyRef Name="SuspensionId" />
+    </Key>
+    <Property Name="SuspensionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StudentId" Type="int" Nullable="false" />
+    <Property Name="Comment" Type="varchar(max)" Nullable="false" />
+    <Property Name="ActiveDate" Type="datetime" Nullable="false" />
+    <Property Name="InactiveDate" Type="datetime" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'Mercury.dbo.User' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="UserID" />
+      <PropertyRef Name="UserKey" />
+      <PropertyRef Name="CreateDt" />
+      <PropertyRef Name="Email" />
+      <PropertyRef Name="Passcode" />
+      <PropertyRef Name="IpAddress" />
+    </Key>
+    <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserKey" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="CreateDt" Type="datetime" Nullable="false" />
+    <Property Name="UpdateDt" Type="datetime" />
+    <Property Name="Email" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Passcode" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="IpAddress" Type="varchar" MaxLength="16" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'Mercury.dbo.UserStaff_X' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="UserStaff_X">
+    <Key>
+      <PropertyRef Name="UserId" />
+      <PropertyRef Name="StaffId" />
+      <PropertyRef Name="ActiveDate" />
+    </Key>
+    <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="StaffId" Type="int" Nullable="false" />
+    <Property Name="ActiveDate" Type="datetime" Nullable="false" />
+    <Property Name="InactiveDate" Type="datetime" />
+  </EntityType>
+  <Association Name="FK_AcademicTerm_AcademicYear">
+    <End Role="AcademicYear" Type="Self.AcademicYear" Multiplicity="1" />
+    <End Role="AcademicTerm" Type="Self.AcademicTerm" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AcademicYear">
+        <PropertyRef Name="AcademicYearID" />
+      </Principal>
+      <Dependent Role="AcademicTerm">
+        <PropertyRef Name="AcademicYearID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Attendance_AttendanceType">
+    <End Role="AttendanceType" Type="Self.AttendanceType" Multiplicity="1" />
+    <End Role="Attendance" Type="Self.Attendance" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AttendanceType">
+        <PropertyRef Name="AttendanceTypeId" />
+      </Principal>
+      <Dependent Role="Attendance">
+        <PropertyRef Name="AttendanceTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Attendance_Student">
+    <End Role="Student" Type="Self.Student" Multiplicity="1" />
+    <End Role="Attendance" Type="Self.Attendance" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Student">
+        <PropertyRef Name="StudentID" />
+      </Principal>
+      <Dependent Role="Attendance">
+        <PropertyRef Name="StudentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_District_Staff">
+    <End Role="Staff" Type="Self.Staff" Multiplicity="1" />
+    <End Role="District" Type="Self.District" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Staff">
+        <PropertyRef Name="StaffId" />
+      </Principal>
+      <Dependent Role="District">
+        <PropertyRef Name="PointOfContact" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PhoneDistrict_X_District">
+    <End Role="District" Type="Self.District" Multiplicity="1" />
+    <End Role="PhoneDistrict_X" Type="Self.PhoneDistrict_X" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="District">
+        <PropertyRef Name="DistrictId" />
+      </Principal>
+      <Dependent Role="PhoneDistrict_X">
+        <PropertyRef Name="DistrictId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PhoneDistrict_X_Phone">
+    <End Role="Phone" Type="Self.Phone" Multiplicity="1" />
+    <End Role="PhoneDistrict_X" Type="Self.PhoneDistrict_X" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Phone">
+        <PropertyRef Name="PhoneId" />
+      </Principal>
+      <Dependent Role="PhoneDistrict_X">
+        <PropertyRef Name="PhoneId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PhoneSchool_X_Phone">
+    <End Role="Phone" Type="Self.Phone" Multiplicity="1" />
+    <End Role="PhoneSchool_X" Type="Self.PhoneSchool_X" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Phone">
+        <PropertyRef Name="PhoneId" />
+      </Principal>
+      <Dependent Role="PhoneSchool_X">
+        <PropertyRef Name="SchoolId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PhoneSchool_X_School">
+    <End Role="School" Type="Self.School" Multiplicity="1" />
+    <End Role="PhoneSchool_X" Type="Self.PhoneSchool_X" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="School">
+        <PropertyRef Name="SchoolId" />
+      </Principal>
+      <Dependent Role="PhoneSchool_X">
+        <PropertyRef Name="SchoolId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PhoneStaff_X_Phone">
+    <End Role="Phone" Type="Self.Phone" Multiplicity="1" />
+    <End Role="PhoneStaff_X" Type="Self.PhoneStaff_X" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Phone">
+        <PropertyRef Name="PhoneId" />
+      </Principal>
+      <Dependent Role="PhoneStaff_X">
+        <PropertyRef Name="PhoneId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PhoneStaff_X_Staff">
+    <End Role="Staff" Type="Self.Staff" Multiplicity="1" />
+    <End Role="PhoneStaff_X" Type="Self.PhoneStaff_X" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Staff">
+        <PropertyRef Name="StaffId" />
+      </Principal>
+      <Dependent Role="PhoneStaff_X">
+        <PropertyRef Name="StaffId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_School_District">
+    <End Role="District" Type="Self.District" Multiplicity="1" />
+    <End Role="School" Type="Self.School" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="District">
+        <PropertyRef Name="DistrictId" />
+      </Principal>
+      <Dependent Role="School">
+        <PropertyRef Name="DistrictId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Student_School">
+    <End Role="School" Type="Self.School" Multiplicity="1" />
+    <End Role="Student" Type="Self.Student" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="School">
+        <PropertyRef Name="SchoolId" />
+      </Principal>
+      <Dependent Role="Student">
+        <PropertyRef Name="SchoolId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Suspension_Student">
+    <End Role="Student" Type="Self.Student" Multiplicity="1" />
+    <End Role="Suspension" Type="Self.Suspension" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Student">
+        <PropertyRef Name="StudentID" />
+      </Principal>
+      <Dependent Role="Suspension">
+        <PropertyRef Name="StudentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="sp_GetDistricts" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="DistrictId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_GetSchools" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="SchoolId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_GetStaff" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="StaffId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_GetStudentAttendance" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="StudentId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_GetStudents" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="StudentId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_GetStudentSuspension" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="StudentId" Type="int" Mode="In" />
+  </Function>
+  <EntityContainer Name="MercuryModelStoreContainer">
+    <EntitySet Name="AcademicTerm" EntityType="Self.AcademicTerm" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AcademicYear" EntityType="Self.AcademicYear" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AttendanceType" EntityType="Self.AttendanceType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="District" EntityType="Self.District" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Phone" EntityType="Self.Phone" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="School" EntityType="Self.School" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Staff" EntityType="Self.Staff" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Student" EntityType="Self.Student" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Suspension" EntityType="Self.Suspension" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Attendance" EntityType="Self.Attendance" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [Attendance].[AttendanceId] AS [AttendanceId], 
+    [Attendance].[StudentId] AS [StudentId], 
+    [Attendance].[AttendanceTypeId] AS [AttendanceTypeId], 
+    [Attendance].[Comment] AS [Comment], 
+    [Attendance].[Value] AS [Value], 
+    [Attendance].[AttendanceDate] AS [AttendanceDate], 
+    [Attendance].[ActiveDate] AS [ActiveDate], 
+    [Attendance].[InactiveDate] AS [InactiveDate]
+    FROM [dbo].[Attendance] AS [Attendance]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="PhoneDistrict_X" EntityType="Self.PhoneDistrict_X" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [PhoneDistrict_X].[PhoneId] AS [PhoneId], 
+    [PhoneDistrict_X].[DistrictId] AS [DistrictId], 
+    [PhoneDistrict_X].[Index] AS [Index], 
+    [PhoneDistrict_X].[Primary] AS [Primary], 
+    [PhoneDistrict_X].[ActiveDate] AS [ActiveDate], 
+    [PhoneDistrict_X].[InactiveDate] AS [InactiveDate]
+    FROM [dbo].[PhoneDistrict_X] AS [PhoneDistrict_X]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="PhoneSchool_X" EntityType="Self.PhoneSchool_X" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [PhoneSchool_X].[PhoneId] AS [PhoneId], 
+    [PhoneSchool_X].[SchoolId] AS [SchoolId], 
+    [PhoneSchool_X].[Index] AS [Index], 
+    [PhoneSchool_X].[Primary] AS [Primary], 
+    [PhoneSchool_X].[ActiveDate] AS [ActiveDate], 
+    [PhoneSchool_X].[InactiveDate] AS [InactiveDate]
+    FROM [dbo].[PhoneSchool_X] AS [PhoneSchool_X]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="PhoneStaff_X" EntityType="Self.PhoneStaff_X" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [PhoneStaff_X].[PhoneId] AS [PhoneId], 
+    [PhoneStaff_X].[StaffId] AS [StaffId], 
+    [PhoneStaff_X].[Index] AS [Index], 
+    [PhoneStaff_X].[Primary] AS [Primary], 
+    [PhoneStaff_X].[ActiveDate] AS [ActiveDate], 
+    [PhoneStaff_X].[InactiveDate] AS [InactiveDate]
+    FROM [dbo].[PhoneStaff_X] AS [PhoneStaff_X]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="User" EntityType="Self.User" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [User].[UserID] AS [UserID], 
+    [User].[UserKey] AS [UserKey], 
+    [User].[CreateDt] AS [CreateDt], 
+    [User].[UpdateDt] AS [UpdateDt], 
+    [User].[Email] AS [Email], 
+    [User].[Passcode] AS [Passcode], 
+    [User].[IpAddress] AS [IpAddress]
+    FROM [dbo].[User] AS [User]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="UserStaff_X" EntityType="Self.UserStaff_X" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [UserStaff_X].[UserId] AS [UserId], 
+    [UserStaff_X].[StaffId] AS [StaffId], 
+    [UserStaff_X].[ActiveDate] AS [ActiveDate], 
+    [UserStaff_X].[InactiveDate] AS [InactiveDate]
+    FROM [dbo].[UserStaff_X] AS [UserStaff_X]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK_AcademicTerm_AcademicYear" Association="Self.FK_AcademicTerm_AcademicYear">
+      <End Role="AcademicYear" EntitySet="AcademicYear" />
+      <End Role="AcademicTerm" EntitySet="AcademicTerm" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Attendance_AttendanceType" Association="Self.FK_Attendance_AttendanceType">
+      <End Role="AttendanceType" EntitySet="AttendanceType" />
+      <End Role="Attendance" EntitySet="Attendance" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Attendance_Student" Association="Self.FK_Attendance_Student">
+      <End Role="Student" EntitySet="Student" />
+      <End Role="Attendance" EntitySet="Attendance" />
+    </AssociationSet>
+    <AssociationSet Name="FK_District_Staff" Association="Self.FK_District_Staff">
+      <End Role="Staff" EntitySet="Staff" />
+      <End Role="District" EntitySet="District" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PhoneDistrict_X_District" Association="Self.FK_PhoneDistrict_X_District">
+      <End Role="District" EntitySet="District" />
+      <End Role="PhoneDistrict_X" EntitySet="PhoneDistrict_X" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PhoneDistrict_X_Phone" Association="Self.FK_PhoneDistrict_X_Phone">
+      <End Role="Phone" EntitySet="Phone" />
+      <End Role="PhoneDistrict_X" EntitySet="PhoneDistrict_X" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PhoneSchool_X_Phone" Association="Self.FK_PhoneSchool_X_Phone">
+      <End Role="Phone" EntitySet="Phone" />
+      <End Role="PhoneSchool_X" EntitySet="PhoneSchool_X" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PhoneSchool_X_School" Association="Self.FK_PhoneSchool_X_School">
+      <End Role="School" EntitySet="School" />
+      <End Role="PhoneSchool_X" EntitySet="PhoneSchool_X" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PhoneStaff_X_Phone" Association="Self.FK_PhoneStaff_X_Phone">
+      <End Role="Phone" EntitySet="Phone" />
+      <End Role="PhoneStaff_X" EntitySet="PhoneStaff_X" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PhoneStaff_X_Staff" Association="Self.FK_PhoneStaff_X_Staff">
+      <End Role="Staff" EntitySet="Staff" />
+      <End Role="PhoneStaff_X" EntitySet="PhoneStaff_X" />
+    </AssociationSet>
+    <AssociationSet Name="FK_School_District" Association="Self.FK_School_District">
+      <End Role="District" EntitySet="District" />
+      <End Role="School" EntitySet="School" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Student_School" Association="Self.FK_Student_School">
+      <End Role="School" EntitySet="School" />
+      <End Role="Student" EntitySet="Student" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Suspension_Student" Association="Self.FK_Suspension_Student">
+      <End Role="Student" EntitySet="Student" />
+      <End Role="Suspension" EntitySet="Suspension" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

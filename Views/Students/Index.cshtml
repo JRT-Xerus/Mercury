@@ -1,0 +1,336 @@
+﻿@model IEnumerable<Mercury.sp_GetStudents_Result>
+
+@{
+    ViewBag.Title = "Students.";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Students.</h2>
+
+<p>
+    @*@Html.ActionLink("Create New Student", "Create")*@
+    <a href="" onclick="create_warning();">Create New Student</a>
+</p>
+<div id="grid_students"></div>
+
+@* modal for student popup dashboard *@
+
+
+<script>
+    $(function () {
+
+        $(function () {
+            //define common ajax object for addition, update and delete.
+            var ajaxObj = {
+                dataType: "JSON",
+                beforeSend: function () {
+                    this.pqGrid("showLoading");
+                },
+                complete: function () {
+                    this.pqGrid("hideLoading");
+                },
+                error: function () {
+                    this.pqGrid("rollback");
+                }
+            };
+            //to check whether any row is currently being edited.
+            function isEditing($grid) {
+                var rows = $grid.pqGrid("getRowsByClass", { cls: 'pq-row-edit' });
+                if (rows.length > 0) {
+                    //focus on editor if any 
+                    $grid.find(".pq-editor-focus").focus();
+                    return true;
+                }
+                return false;
+            }
+            //called by add button in toolbar.
+            function addRow($grid) {
+                if (isEditing($grid)) {
+                    return false;
+                }
+                //append empty row in the first row.                            
+                var rowData = { UnitPrice: 0, UnitsInStock: 0, UnitsOnOrder: 0, Discontinued: false }; //empty row template
+                $grid.pqGrid("addRow", { rowIndxPage: 0, rowData: rowData });
+
+                var $tr = $grid.pqGrid("getRow", { rowIndxPage: 0 });
+                if ($tr) {
+                    //simulate click on edit button.
+                    $tr.find("button.edit_btn").click();
+                }
+            }
+            //called by delete button.
+            function deleteRow(rowIndx, $grid) {
+                $grid.pqGrid("addClass", { rowIndx: rowIndx, cls: 'pq-row-delete' });
+                var rowData = $grid.pqGrid("getRowData", { rowIndx: rowIndx });
+                var ans = window.confirm("Are you sure to delete row No " + (rowIndx + 1) + "?");
+
+                if (ans) {
+                    $grid.pqGrid("deleteRow", { rowIndx: rowIndx, effect: true });
+
+                    var ProductID = $grid.pqGrid("getRecId", { rowIndx: rowIndx });
+
+                    $.ajax($.extend({}, ajaxObj, {
+                        context: $grid,
+                        url: "/pro/products/delete",
+                        //url: "/pro/products.php?pq_delete=1",//for PHP
+                        data: { ProductID: ProductID },
+                        success: function () {
+                            $grid.pqGrid("commit");
+                            $grid.pqGrid("refreshDataAndView");
+                        },
+                        error: function () {
+                            //debugger;
+                            $grid.pqGrid("removeClass", { rowData: rowData, cls: 'pq-row-delete' });
+                            $grid.pqGrid("rollback");
+                        }
+                    }));
+                }
+                else {
+                    $grid.pqGrid("removeClass", { rowIndx: rowIndx, cls: 'pq-row-delete' });
+                }
+            }
+            //called by edit button.
+            function editRow(rowIndx, $grid) {
+
+                $grid.pqGrid("addClass", { rowIndx: rowIndx, cls: 'pq-row-edit' });
+                $grid.pqGrid("editFirstCellInRow", { rowIndx: rowIndx });
+
+                //change edit button to update button and delete to cancel.
+                var $tr = $grid.pqGrid("getRow", { rowIndx: rowIndx }),
+                    $btn = $tr.find("button.edit_btn");
+                $btn.button("option", { label: "Update", "icons": { primary: "ui-icon-check" } })
+                    .unbind("click")
+                    .click(function (evt) {
+                        evt.preventDefault();
+                        return update(rowIndx, $grid);
+                    });
+                $btn.next().button("option", { label: "Cancel", "icons": { primary: "ui-icon-cancel" } })
+                    .unbind("click")
+                    .click(function (evt) {
+                        $grid.pqGrid("quitEditMode");
+                        $grid.pqGrid("removeClass", { rowIndx: rowIndx, cls: 'pq-row-edit' });
+                        $grid.pqGrid("refreshRow", { rowIndx: rowIndx });
+                        $grid.pqGrid("rollback");
+                    });
+            }
+            //called by update button.
+            function update(rowIndx, $grid) {
+                if (!$grid.pqGrid("saveEditCell")) {
+                    return false;
+                }
+
+                var rowData = $grid.pqGrid("getRowData", { rowIndx: rowIndx });
+                var isValid = $grid.pqGrid("isValid", { rowData: rowData }).valid;
+                if (!isValid) {
+                    return false;
+                }
+                var isDirty = $grid.pqGrid("isDirty");
+                if (isDirty) {
+                    var recIndx = $grid.pqGrid("option", "dataModel.recIndx");
+
+                    $grid.pqGrid("removeClass", { rowIndx: rowIndx, cls: 'pq-row-edit' });
+
+                    var url;
+                    if (rowData[recIndx] == null) {
+                        //url to add records.
+                        url = "/pro/products/add";
+                        //url = "/pro/products.php?pq_add=1";for PHP
+                    }
+                    else {
+                        //url to  update records.
+                        url = "/pro/products/update";
+                        //url = "/pro/products.php?pq_update=1";for PHP
+                    }
+                    $.ajax($.extend({}, ajaxObj, {
+                        context: $grid,
+                        url: url,
+                        data: rowData,
+                        success: function (response) {
+                            var recIndx = $grid.pqGrid("option", "dataModel.recIndx");
+                            if (rowData[recIndx] == null) {
+                                rowData[recIndx] = response.recId;
+                            }
+                            $grid.pqGrid("removeClass", { rowIndx: rowIndx, cls: 'pq-row-edit' });
+                            $grid.pqGrid("commit");
+                        }
+                    }));
+                }
+                else {
+                    $grid.pqGrid("quitEditMode");
+                    $grid.pqGrid("removeClass", { rowIndx: rowIndx, cls: 'pq-row-edit' });
+                    $grid.pqGrid("refreshRow", { rowIndx: rowIndx });
+                }
+            }
+            //define the grid.
+            var obj = {
+                width: 1200,
+                height: 800,
+                wrap: false,
+                hwrap: false,
+                showTop: true,
+                showBottom: true,
+                collapsible: true,
+                showHeader: true,
+                resizable: true,
+                columnBorders: true,
+                rowBorders: true,
+                flexHeight: true,
+                stripeRows: true,
+                sortable: true,
+                numberCell: { show: true },
+                track: true, //to turn on the track changes.
+                flexHeight: true,
+                filterModel: { on: true, mode: "AND", header: true },
+                toolbar: {
+                    items: [
+                        {
+                            type: 'button', icon: 'ui-icon-plus', label: 'Add Student', listeners: [
+                              {
+                                  "click": function (evt, ui) {
+                                      var $grid = $(this).closest('.pq-grid');
+                                      addRow($grid);
+                                      //debugger;
+                                  }
+                              }
+                            ]
+                        }
+                    ]
+                },
+                scrollModel: {
+                    autoFit: true
+                },
+                selectionModel: {
+                    type: 'cell'
+                },
+                hoverMode: 'cell',
+                editModel: {
+                    saveKey: $.ui.keyCode.ENTER
+                },
+                editor: { type: 'textbox', select: true },
+                validation: {
+                    icon: 'ui-icon-info'
+                },
+                title: "<b>Students</b>",
+
+                colModel: [
+                        { title: "StudentID", dataType: "integer", dataIndx: "StudentID", editable: false, hidden: true},
+                        {
+                            title: "School", width: 150, dataType: "string", dataIndx: "SchoolName",
+                            filter: { type: 'textbox', condition: 'begin', listeners: ['change'] }
+                        },
+                        {
+                            title: "Last Name", width: 30, dataType: "string", dataIndx: "LastName",
+                            filter: { type: 'textbox', condition: 'begin', listeners: ['change'] }
+                        },
+                        { title: "First Name", width: 30, dataType: "string", dataIndx: "FirstName",
+                        filter: { type: 'textbox', condition: 'begin', listeners: ['change'] }
+                        },
+                        { title: "Grade", width: 10, dataType: "integer", dataIndx: "Grade",
+                        filter: { type: 'textbox', condition: 'begin', listeners: ['change'] }
+                        },
+                        { title: "Suspensions", width: 10, dataType: "integer", dataIndx: "Suspension",
+                        filter: { type: 'textbox', condition: 'begin', listeners: ['change'] }
+                        },
+                        {
+                            title: "Total<br />Abs", width: 20, dataType: "float", dataIndx: "TotalAbsense",
+                            filter: { type: 'textbox', condition: 'begin', listeners: ['change'] }
+                        },
+                        { title: "Excused<br />Abs", width: 20, dataType: "float", dataIndx: "ExcusedAbsense" },
+                        { title: "Unexcused<br />Abs", width: 20, dataType: "float", dataIndx: "UnexcusedAbsense" },
+                        { title: "2 Weeks<br />Excused Abs", width: 20, dataType: "float", dataIndx: "PastTwoWeeksExcusedAbsense" },
+                        { title: "2 Weeks<br />Unex Abs", width: 20, dataType: "float", dataIndx: "PastTwoWeeksUnexcusedAbsense" },
+                        { title: "4 Weeks<br />Excused Abs", width: 20, dataType: "float", dataIndx: "PastFourWeeksExcusedAbsense" },
+                        { title: "4 Weeks<br />Unex Abs", width: 20, dataType: "float", dataIndx: "PastFourWeeksUnexcusedAbsense" },
+
+                        {
+                            title: "", editable: false, minWidth: 165, sortable: false, render: function (ui) {
+                                return "<button type='button'>Edit</button>\
+                                        <button type='button'>Delete</button>";
+                            }
+                        }
+                ],
+                dataModel: {
+                    dataType: "JSON",
+                    location: "remote",
+                    recIndx: "StudentID",
+                    url: "/Students/getP",
+                    getData: function (response) {
+                        return { data: response.data, curPage: response.curPage, totalRecords: response.totalRecords };
+                    }
+                },
+                pageModel: { type: "remote" },
+                //save the cell when cell loses focus.
+                quitEditMode: function (evt, ui) {
+                    var $grid = $(this);
+                    if (evt.keyCode != $.ui.keyCode.ESCAPE) {
+                        $grid.pqGrid("saveEditCell");
+                    }
+                },
+                //make rows editable selectively.
+                editable: function (ui) {
+                    var $grid = $(this);
+                    var rowIndx = ui.rowIndx;
+                    if ($grid.pqGrid("hasClass", { rowIndx: rowIndx, cls: 'pq-row-edit' }) == true) {
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
+                },
+                //use refresh event to display jQueryUI buttons and bind events.
+                refresh: function () {
+                    //debugger;
+                    var $grid = $(this);
+                    if (!$grid) {
+                        return;
+                    }
+                    //delete button
+                    $grid.find("button.delete_btn").button({ icons: { primary: 'ui-icon-close' } })
+                    .unbind("click")
+                    .bind("click", function (evt) {
+                        if (isEditing($grid)) {
+                            return false;
+                        }
+                        var $tr = $(this).closest("tr"),
+                            rowIndx = $grid.pqGrid("getRowIndx", { $tr: $tr }).rowIndx;
+                        deleteRow(rowIndx, $grid);
+                    });
+                    //edit button
+                    $grid.find("button.edit_btn").button({ icons: { primary: 'ui-icon-pencil' } })
+                    .unbind("click")
+                    .bind("click", function (evt) {
+                        if (isEditing($grid)) {
+                            return false;
+                        }
+                        var $tr = $(this).closest("tr"),
+                            rowIndx = $grid.pqGrid("getRowIndx", { $tr: $tr }).rowIndx;
+                        editRow(rowIndx, $grid);
+                        return false;
+                    });
+
+                    //rows which were in edit mode before refresh, put them in edit mode again.
+                    var rows = $grid.pqGrid("getRowsByClass", { cls: 'pq-row-edit' });
+                    if (rows.length > 0) {
+                        var rowIndx = rows[0].rowIndx;
+                        editRow(rowIndx, $grid);
+                    }
+                },
+                cellBeforeSave: function (evt, ui) {
+                    var $grid = $(this);
+                    var isValid = $grid.pqGrid("isValid", ui);
+                    if (!isValid.valid) {
+                        //evt.preventDefault();                    
+                        return false;
+                    }
+                }
+            };
+            var grid = $("#grid_students").pqGrid(obj);
+            grid.pqGrid('refreshDataAndView');
+        });
+
+
+
+
+    })
+</script>
+

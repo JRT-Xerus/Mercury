@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="799eb3e04f5b4071b8b48c4428f8ba90" Name="Diagram1">
+        <EntityTypeShape EntityType="MercuryModel.AttendanceType" Width="1.5" PointX="10.5" PointY="11.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MercuryModel.District" Width="1.5" PointX="3" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MercuryModel.Phone" Width="1.5" PointX="0.75" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="MercuryModel.School" Width="1.5" PointX="5.25" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MercuryModel.Staff" Width="1.5" PointX="0.75" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MercuryModel.Student" Width="1.5" PointX="7.5" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MercuryModel.Suspension" Width="1.5" PointX="9.75" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MercuryModel.Attendance" Width="1.5" PointX="12.75" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="MercuryModel.PhoneDistrict_X" Width="1.5" PointX="5.25" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="MercuryModel.PhoneSchool_X" Width="1.5" PointX="10.5" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="MercuryModel.PhoneStaff_X" Width="1.5" PointX="3" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="MercuryModel.User" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MercuryModel.UserStaff_X" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="MercuryModel.FK_Attendance_AttendanceType" ManuallyRouted="false" />
+        <AssociationConnector Association="MercuryModel.FK_District_Staff" ManuallyRouted="false" />
+        <AssociationConnector Association="MercuryModel.FK_PhoneDistrict_X_District" ManuallyRouted="false" />
+        <AssociationConnector Association="MercuryModel.FK_School_District" ManuallyRouted="false" />
+        <AssociationConnector Association="MercuryModel.FK_PhoneDistrict_X_Phone" ManuallyRouted="false" />
+        <AssociationConnector Association="MercuryModel.FK_PhoneSchool_X_Phone" ManuallyRouted="false" />
+        <AssociationConnector Association="MercuryModel.FK_PhoneStaff_X_Phone" ManuallyRouted="false" />
+        <AssociationConnector Association="MercuryModel.FK_PhoneSchool_X_School" ManuallyRouted="false" />
+        <AssociationConnector Association="MercuryModel.FK_Student_School" ManuallyRouted="false" />
+        <AssociationConnector Association="MercuryModel.FK_PhoneStaff_X_Staff" ManuallyRouted="false" />
+        <AssociationConnector Association="MercuryModel.FK_Attendance_Student" ManuallyRouted="false" />
+        <AssociationConnector Association="MercuryModel.FK_Suspension_Student" ManuallyRouted="false" />
+        <AssociationConnector Association="MercuryModel.FK_PhoneSchool_X_Phone1" />
+        <EntityTypeShape EntityType="MercuryModel.AcademicTerm" Width="1.5" PointX="3" PointY="13" />
+        <EntityTypeShape EntityType="MercuryModel.AcademicYear" Width="1.5" PointX="0.75" PointY="13" />
+        <AssociationConnector Association="MercuryModel.FK_AcademicTerm_AcademicYear" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

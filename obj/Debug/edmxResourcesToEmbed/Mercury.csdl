@@ -1,0 +1,602 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MercuryModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="AttendanceType">
+    <Key>
+      <PropertyRef Name="AttendanceTypeId" />
+    </Key>
+    <Property Name="AttendanceTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ActiveDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="InactiveDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Attendances" Relationship="Self.FK_Attendance_AttendanceType" FromRole="AttendanceType" ToRole="Attendance" />
+  </EntityType>
+  <EntityType Name="District">
+    <Key>
+      <PropertyRef Name="DistrictId" />
+    </Key>
+    <Property Name="DistrictId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DistrictName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Address1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Address2" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="City" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="State" Type="String" MaxLength="2" FixedLength="true" Unicode="false" Nullable="false" />
+    <Property Name="PostalCode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="PointOfContact" Type="Int32" Nullable="false" />
+    <Property Name="ActiveDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="InactiveDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Staff" Relationship="Self.FK_District_Staff" FromRole="District" ToRole="Staff" />
+    <NavigationProperty Name="PhoneDistrict_X" Relationship="Self.FK_PhoneDistrict_X_District" FromRole="District" ToRole="PhoneDistrict_X" />
+    <NavigationProperty Name="Schools" Relationship="Self.FK_School_District" FromRole="District" ToRole="School" />
+  </EntityType>
+  <EntityType Name="Phone">
+    <Key>
+      <PropertyRef Name="PhoneId" />
+    </Key>
+    <Property Name="PhoneId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Value" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Ext" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="ActiveDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="InactiveDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="PhoneDistrict_X" Relationship="Self.FK_PhoneDistrict_X_Phone" FromRole="Phone" ToRole="PhoneDistrict_X" />
+    <NavigationProperty Name="PhoneSchool_X" Relationship="Self.FK_PhoneSchool_X_Phone" FromRole="Phone" ToRole="PhoneSchool_X" />
+    <NavigationProperty Name="PhoneStaff_X" Relationship="Self.FK_PhoneStaff_X_Phone" FromRole="Phone" ToRole="PhoneStaff_X" />
+    <NavigationProperty Name="PhoneSchool_X1" Relationship="MercuryModel.FK_PhoneSchool_X_Phone1" FromRole="Phone" ToRole="PhoneSchool_X" />
+  </EntityType>
+  <EntityType Name="School">
+    <Key>
+      <PropertyRef Name="SchoolId" />
+    </Key>
+    <Property Name="SchoolId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DistrictId" Type="Int32" Nullable="false" />
+    <Property Name="SchoolName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="PointOfContact" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+    <Property Name="Email" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="Address1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Address2" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="City" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="State" Type="String" MaxLength="2" FixedLength="true" Unicode="false" Nullable="false" />
+    <Property Name="PostalCode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ActiveDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="InactiveDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="District" Relationship="Self.FK_School_District" FromRole="School" ToRole="District" />
+    <NavigationProperty Name="PhoneSchool_X" Relationship="Self.FK_PhoneSchool_X_School" FromRole="School" ToRole="PhoneSchool_X" />
+    <NavigationProperty Name="Students" Relationship="Self.FK_Student_School" FromRole="School" ToRole="Student" />
+  </EntityType>
+  <EntityType Name="Staff">
+    <Key>
+      <PropertyRef Name="StaffId" />
+    </Key>
+    <Property Name="StaffId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FirstName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="LastName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Title" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="OtherSystemId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Email" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ActiveDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="InactiveDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Districts" Relationship="Self.FK_District_Staff" FromRole="Staff" ToRole="District" />
+    <NavigationProperty Name="PhoneStaff_X" Relationship="Self.FK_PhoneStaff_X_Staff" FromRole="Staff" ToRole="PhoneStaff_X" />
+  </EntityType>
+  <EntityType Name="Student">
+    <Key>
+      <PropertyRef Name="StudentID" />
+    </Key>
+    <Property Name="StudentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="SISNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="RTTPEnrollmentDt" Type="DateTime" Precision="3" />
+    <Property Name="TransferDt" Type="DateTime" Precision="3" />
+    <Property Name="FirstAttendanceDt" Type="DateTime" Precision="3" />
+    <Property Name="DropDt" Type="DateTime" Precision="3" />
+    <Property Name="BirthDt" Type="DateTime" Precision="3" />
+    <Property Name="Grade" Type="Int32" />
+    <Property Name="SchoolId" Type="Int32" Nullable="false" />
+    <Property Name="ActiveDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="InactiveDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="School" Relationship="Self.FK_Student_School" FromRole="Student" ToRole="School" />
+    <NavigationProperty Name="Attendances" Relationship="Self.FK_Attendance_Student" FromRole="Student" ToRole="Attendance" />
+    <NavigationProperty Name="Suspensions" Relationship="Self.FK_Suspension_Student" FromRole="Student" ToRole="Suspension" />
+  </EntityType>
+  <EntityType Name="Suspension">
+    <Key>
+      <PropertyRef Name="SuspensionId" />
+    </Key>
+    <Property Name="SuspensionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="StudentId" Type="Int32" Nullable="false" />
+    <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ActiveDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="InactiveDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Student" Relationship="Self.FK_Suspension_Student" FromRole="Suspension" ToRole="Student" />
+  </EntityType>
+  <EntityType Name="Attendance">
+    <Key>
+      <PropertyRef Name="AttendanceId" />
+      <PropertyRef Name="StudentId" />
+      <PropertyRef Name="AttendanceTypeId" />
+      <PropertyRef Name="ActiveDate" />
+      <PropertyRef Name="AttendanceDate" />
+    </Key>
+    <Property Name="AttendanceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="StudentId" Type="Int32" Nullable="false" />
+    <Property Name="AttendanceTypeId" Type="Int32" Nullable="false" />
+    <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Value" Type="Decimal" Precision="5" Scale="2" />
+    <Property Name="ActiveDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="InactiveDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="AttendanceType" Relationship="Self.FK_Attendance_AttendanceType" FromRole="Attendance" ToRole="AttendanceType" />
+    <NavigationProperty Name="Student" Relationship="Self.FK_Attendance_Student" FromRole="Attendance" ToRole="Student" />
+    <Property Name="AttendanceDate" Type="DateTime" Nullable="false" Precision="3" />
+  </EntityType>
+  <EntityType Name="PhoneDistrict_X">
+    <Key>
+      <PropertyRef Name="PhoneId" />
+      <PropertyRef Name="DistrictId" />
+      <PropertyRef Name="Index" />
+      <PropertyRef Name="Primary" />
+      <PropertyRef Name="ActiveDate" />
+    </Key>
+    <Property Name="PhoneId" Type="Int32" Nullable="false" />
+    <Property Name="DistrictId" Type="Int32" Nullable="false" />
+    <Property Name="Index" Type="Int32" Nullable="false" />
+    <Property Name="Primary" Type="Boolean" Nullable="false" />
+    <Property Name="ActiveDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="InactiveDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="District" Relationship="Self.FK_PhoneDistrict_X_District" FromRole="PhoneDistrict_X" ToRole="District" />
+    <NavigationProperty Name="Phone" Relationship="Self.FK_PhoneDistrict_X_Phone" FromRole="PhoneDistrict_X" ToRole="Phone" />
+  </EntityType>
+  <EntityType Name="PhoneSchool_X">
+    <Key>
+      <PropertyRef Name="PhoneId" />
+      <PropertyRef Name="SchoolId" />
+      <PropertyRef Name="Index" />
+      <PropertyRef Name="Primary" />
+      <PropertyRef Name="ActiveDate" />
+    </Key>
+    <Property Name="PhoneId" Type="Int32" Nullable="false" />
+    <Property Name="SchoolId" Type="Int32" Nullable="false" />
+    <Property Name="Index" Type="Int32" Nullable="false" />
+    <Property Name="Primary" Type="Boolean" Nullable="false" />
+    <Property Name="ActiveDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="InactiveDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Phone" Relationship="Self.FK_PhoneSchool_X_Phone" FromRole="PhoneSchool_X" ToRole="Phone" />
+    <NavigationProperty Name="School" Relationship="Self.FK_PhoneSchool_X_School" FromRole="PhoneSchool_X" ToRole="School" />
+    <NavigationProperty Name="Phone1" Relationship="MercuryModel.FK_PhoneSchool_X_Phone1" FromRole="PhoneSchool_X" ToRole="Phone" />
+  </EntityType>
+  <EntityType Name="PhoneStaff_X">
+    <Key>
+      <PropertyRef Name="PhoneId" />
+      <PropertyRef Name="StaffId" />
+      <PropertyRef Name="Index" />
+      <PropertyRef Name="Primary" />
+      <PropertyRef Name="ActiveDate" />
+    </Key>
+    <Property Name="PhoneId" Type="Int32" Nullable="false" />
+    <Property Name="StaffId" Type="Int32" Nullable="false" />
+    <Property Name="Index" Type="Int32" Nullable="false" />
+    <Property Name="Primary" Type="Boolean" Nullable="false" />
+    <Property Name="ActiveDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="InactiveDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Phone" Relationship="Self.FK_PhoneStaff_X_Phone" FromRole="PhoneStaff_X" ToRole="Phone" />
+    <NavigationProperty Name="Staff" Relationship="Self.FK_PhoneStaff_X_Staff" FromRole="PhoneStaff_X" ToRole="Staff" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="UserID" />
+      <PropertyRef Name="UserKey" />
+      <PropertyRef Name="CreateDt" />
+      <PropertyRef Name="Email" />
+      <PropertyRef Name="Passcode" />
+      <PropertyRef Name="IpAddress" />
+    </Key>
+    <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserKey" Type="Guid" Nullable="false" />
+    <Property Name="CreateDt" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="UpdateDt" Type="DateTime" Precision="3" />
+    <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Passcode" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="IpAddress" Type="String" MaxLength="16" FixedLength="false" Unicode="false" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UserStaff_X">
+    <Key>
+      <PropertyRef Name="UserId" />
+      <PropertyRef Name="StaffId" />
+      <PropertyRef Name="ActiveDate" />
+    </Key>
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+    <Property Name="StaffId" Type="Int32" Nullable="false" />
+    <Property Name="ActiveDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="InactiveDate" Type="DateTime" Precision="3" />
+  </EntityType>
+  <Association Name="FK_Attendance_AttendanceType">
+    <End Role="AttendanceType" Type="Self.AttendanceType" Multiplicity="1" />
+    <End Role="Attendance" Type="Self.Attendance" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AttendanceType">
+        <PropertyRef Name="AttendanceTypeId" />
+      </Principal>
+      <Dependent Role="Attendance">
+        <PropertyRef Name="AttendanceTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_District_Staff">
+    <End Role="Staff" Type="Self.Staff" Multiplicity="1" />
+    <End Role="District" Type="Self.District" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Staff">
+        <PropertyRef Name="StaffId" />
+      </Principal>
+      <Dependent Role="District">
+        <PropertyRef Name="PointOfContact" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PhoneDistrict_X_District">
+    <End Role="District" Type="Self.District" Multiplicity="1" />
+    <End Role="PhoneDistrict_X" Type="Self.PhoneDistrict_X" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="District">
+        <PropertyRef Name="DistrictId" />
+      </Principal>
+      <Dependent Role="PhoneDistrict_X">
+        <PropertyRef Name="DistrictId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_School_District">
+    <End Role="District" Type="Self.District" Multiplicity="1" />
+    <End Role="School" Type="Self.School" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="District">
+        <PropertyRef Name="DistrictId" />
+      </Principal>
+      <Dependent Role="School">
+        <PropertyRef Name="DistrictId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PhoneDistrict_X_Phone">
+    <End Role="Phone" Type="Self.Phone" Multiplicity="1" />
+    <End Role="PhoneDistrict_X" Type="Self.PhoneDistrict_X" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Phone">
+        <PropertyRef Name="PhoneId" />
+      </Principal>
+      <Dependent Role="PhoneDistrict_X">
+        <PropertyRef Name="PhoneId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PhoneSchool_X_Phone">
+    <End Role="Phone" Type="Self.Phone" Multiplicity="1" />
+    <End Role="PhoneSchool_X" Type="Self.PhoneSchool_X" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Phone">
+        <PropertyRef Name="PhoneId" />
+      </Principal>
+      <Dependent Role="PhoneSchool_X">
+        <PropertyRef Name="SchoolId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PhoneStaff_X_Phone">
+    <End Role="Phone" Type="Self.Phone" Multiplicity="1" />
+    <End Role="PhoneStaff_X" Type="Self.PhoneStaff_X" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Phone">
+        <PropertyRef Name="PhoneId" />
+      </Principal>
+      <Dependent Role="PhoneStaff_X">
+        <PropertyRef Name="PhoneId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PhoneSchool_X_School">
+    <End Role="School" Type="Self.School" Multiplicity="1" />
+    <End Role="PhoneSchool_X" Type="Self.PhoneSchool_X" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="School">
+        <PropertyRef Name="SchoolId" />
+      </Principal>
+      <Dependent Role="PhoneSchool_X">
+        <PropertyRef Name="SchoolId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Student_School">
+    <End Role="School" Type="Self.School" Multiplicity="1" />
+    <End Role="Student" Type="Self.Student" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="School">
+        <PropertyRef Name="SchoolId" />
+      </Principal>
+      <Dependent Role="Student">
+        <PropertyRef Name="SchoolId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PhoneStaff_X_Staff">
+    <End Role="Staff" Type="Self.Staff" Multiplicity="1" />
+    <End Role="PhoneStaff_X" Type="Self.PhoneStaff_X" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Staff">
+        <PropertyRef Name="StaffId" />
+      </Principal>
+      <Dependent Role="PhoneStaff_X">
+        <PropertyRef Name="StaffId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Attendance_Student">
+    <End Role="Student" Type="Self.Student" Multiplicity="1" />
+    <End Role="Attendance" Type="Self.Attendance" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Student">
+        <PropertyRef Name="StudentID" />
+      </Principal>
+      <Dependent Role="Attendance">
+        <PropertyRef Name="StudentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Suspension_Student">
+    <End Role="Student" Type="Self.Student" Multiplicity="1" />
+    <End Role="Suspension" Type="Self.Suspension" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Student">
+        <PropertyRef Name="StudentID" />
+      </Principal>
+      <Dependent Role="Suspension">
+        <PropertyRef Name="StudentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="MercuryEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="AttendanceTypes" EntityType="Self.AttendanceType" />
+    <EntitySet Name="Districts" EntityType="Self.District" />
+    <EntitySet Name="Phones" EntityType="Self.Phone" />
+    <EntitySet Name="Schools" EntityType="Self.School" />
+    <EntitySet Name="Staffs" EntityType="Self.Staff" />
+    <EntitySet Name="Students" EntityType="Self.Student" />
+    <EntitySet Name="Suspensions" EntityType="Self.Suspension" />
+    <EntitySet Name="Attendances" EntityType="Self.Attendance" />
+    <EntitySet Name="PhoneDistrict_X" EntityType="Self.PhoneDistrict_X" />
+    <EntitySet Name="PhoneSchool_X" EntityType="Self.PhoneSchool_X" />
+    <EntitySet Name="PhoneStaff_X" EntityType="Self.PhoneStaff_X" />
+    <EntitySet Name="Users" EntityType="Self.User" />
+    <EntitySet Name="UserStaff_X" EntityType="Self.UserStaff_X" />
+    <AssociationSet Name="FK_Attendance_AttendanceType" Association="Self.FK_Attendance_AttendanceType">
+      <End Role="AttendanceType" EntitySet="AttendanceTypes" />
+      <End Role="Attendance" EntitySet="Attendances" />
+    </AssociationSet>
+    <AssociationSet Name="FK_District_Staff" Association="Self.FK_District_Staff">
+      <End Role="Staff" EntitySet="Staffs" />
+      <End Role="District" EntitySet="Districts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PhoneDistrict_X_District" Association="Self.FK_PhoneDistrict_X_District">
+      <End Role="District" EntitySet="Districts" />
+      <End Role="PhoneDistrict_X" EntitySet="PhoneDistrict_X" />
+    </AssociationSet>
+    <AssociationSet Name="FK_School_District" Association="Self.FK_School_District">
+      <End Role="District" EntitySet="Districts" />
+      <End Role="School" EntitySet="Schools" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PhoneDistrict_X_Phone" Association="Self.FK_PhoneDistrict_X_Phone">
+      <End Role="Phone" EntitySet="Phones" />
+      <End Role="PhoneDistrict_X" EntitySet="PhoneDistrict_X" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PhoneSchool_X_Phone" Association="Self.FK_PhoneSchool_X_Phone">
+      <End Role="Phone" EntitySet="Phones" />
+      <End Role="PhoneSchool_X" EntitySet="PhoneSchool_X" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PhoneStaff_X_Phone" Association="Self.FK_PhoneStaff_X_Phone">
+      <End Role="Phone" EntitySet="Phones" />
+      <End Role="PhoneStaff_X" EntitySet="PhoneStaff_X" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PhoneSchool_X_School" Association="Self.FK_PhoneSchool_X_School">
+      <End Role="School" EntitySet="Schools" />
+      <End Role="PhoneSchool_X" EntitySet="PhoneSchool_X" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Student_School" Association="Self.FK_Student_School">
+      <End Role="School" EntitySet="Schools" />
+      <End Role="Student" EntitySet="Students" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PhoneStaff_X_Staff" Association="Self.FK_PhoneStaff_X_Staff">
+      <End Role="Staff" EntitySet="Staffs" />
+      <End Role="PhoneStaff_X" EntitySet="PhoneStaff_X" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Attendance_Student" Association="Self.FK_Attendance_Student">
+      <End Role="Student" EntitySet="Students" />
+      <End Role="Attendance" EntitySet="Attendances" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Suspension_Student" Association="Self.FK_Suspension_Student">
+      <End Role="Student" EntitySet="Students" />
+      <End Role="Suspension" EntitySet="Suspensions" />
+    </AssociationSet>
+    <FunctionImport Name="sp_GetDistricts" ReturnType="Collection(MercuryModel.sp_GetDistricts_Result)">
+      <Parameter Name="DistrictId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_GetSchools" ReturnType="Collection(MercuryModel.sp_GetSchools_Result)">
+      <Parameter Name="SchoolId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_GetStaff" ReturnType="Collection(MercuryModel.sp_GetStaff_Result)">
+      <Parameter Name="StaffId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_GetStudentAttendance" ReturnType="Collection(MercuryModel.sp_GetStudentAttendance_Result)">
+      <Parameter Name="StudentId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_GetStudents" ReturnType="Collection(MercuryModel.sp_GetStudents_Result)">
+      <Parameter Name="StudentId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_GetStudentSuspension" ReturnType="Collection(MercuryModel.sp_GetStudentSuspension_Result)">
+      <Parameter Name="StudentId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <AssociationSet Name="FK_PhoneSchool_X_Phone1" Association="MercuryModel.FK_PhoneSchool_X_Phone1">
+      <End Role="Phone" EntitySet="Phones" />
+      <End Role="PhoneSchool_X" EntitySet="PhoneSchool_X" />
+    </AssociationSet>
+    <FunctionImport Name="sp_GetStudent_DashboardView" ReturnType="Collection(MercuryModel.sp_GetStudent_DashboardView_Result)">
+      <Parameter Name="StudentId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <EntitySet Name="AcademicTerms" EntityType="MercuryModel.AcademicTerm" />
+    <EntitySet Name="AcademicYears" EntityType="MercuryModel.AcademicYear" />
+    <AssociationSet Name="FK_AcademicTerm_AcademicYear" Association="MercuryModel.FK_AcademicTerm_AcademicYear">
+      <End Role="AcademicYear" EntitySet="AcademicYears" />
+      <End Role="AcademicTerm" EntitySet="AcademicTerms" />
+    </AssociationSet>
+  </EntityContainer>
+  <ComplexType Name="sp_GetDistricts_Result">
+    <Property Type="Int32" Name="DistrictId" Nullable="false" />
+    <Property Type="String" Name="DistrictName" Nullable="false" MaxLength="200" />
+    <Property Type="String" Name="Description" Nullable="false" />
+    <Property Type="String" Name="Address1" Nullable="false" MaxLength="200" />
+    <Property Type="String" Name="Address2" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="City" Nullable="false" MaxLength="200" />
+    <Property Type="String" Name="State" Nullable="false" MaxLength="2" />
+    <Property Type="String" Name="PostalCode" Nullable="false" MaxLength="10" />
+    <Property Type="String" Name="PhoneNumber" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Ext" Nullable="true" MaxLength="15" />
+  </ComplexType>
+  <ComplexType Name="sp_GetSchools_Result">
+    <Property Type="Int32" Name="SchoolId" Nullable="false" />
+    <Property Type="Int32" Name="DistrictId" Nullable="false" />
+    <Property Type="String" Name="DistrictName" Nullable="false" MaxLength="200" />
+    <Property Type="String" Name="SchoolName" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="PointOfContact" Nullable="true" MaxLength="300" />
+    <Property Type="String" Name="Email" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="Address1" Nullable="false" MaxLength="200" />
+    <Property Type="String" Name="Address2" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="City" Nullable="false" MaxLength="200" />
+    <Property Type="String" Name="State" Nullable="false" MaxLength="2" />
+    <Property Type="String" Name="PostalCode" Nullable="false" MaxLength="10" />
+    <Property Type="DateTime" Name="ActiveDate" Nullable="false" Precision="23" />
+    <Property Type="DateTime" Name="InactiveDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="PhoneNumber" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Ext" Nullable="true" MaxLength="15" />
+    <Property Type="Int32" Name="Active" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="sp_GetStaff_Result">
+    <Property Type="Int32" Name="StaffId" Nullable="false" />
+    <Property Type="String" Name="FirstName" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="LastName" Nullable="false" MaxLength="200" />
+    <Property Type="String" Name="Title" Nullable="false" MaxLength="200" />
+    <Property Type="String" Name="OtherSystemId" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Email" Nullable="false" MaxLength="500" />
+    <Property Type="DateTime" Name="ActiveDate" Nullable="false" Precision="23" />
+    <Property Type="DateTime" Name="InactiveDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="PhoneNumber" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Ext" Nullable="true" MaxLength="15" />
+  </ComplexType>
+  <ComplexType Name="sp_GetStudentAttendance_Result">
+    <Property Type="Int32" Name="AttendanceId" Nullable="false" />
+    <Property Type="Int32" Name="StudentId" Nullable="false" />
+    <Property Type="String" Name="SchoolName" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="FirstName" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="LastName" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="AttendanceType" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="Comment" Nullable="true" />
+    <Property Type="Decimal" Name="Value" Nullable="true" Precision="5" Scale="2" />
+    <Property Type="Int32" Name="Active" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="sp_GetStudents_Result">
+    <Property Type="Int32" Name="StudentID" Nullable="false" />
+    <Property Type="Int32" Name="DistrictId" Nullable="false" />
+    <Property Type="String" Name="DistrictName" Nullable="false" MaxLength="200" />
+    <Property Type="Int32" Name="SchoolId" Nullable="false" />
+    <Property Type="String" Name="SchoolName" Nullable="false" MaxLength="100" />
+    <Property Type="DateTime" Name="RTTPEnrollmentDt" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="FirstAttendanceDt" Nullable="true" Precision="23" />
+    <Property Type="String" Name="FirstName" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="LastName" Nullable="false" MaxLength="50" />
+    <Property Type="Int32" Name="Grade" Nullable="true" />
+    <Property Type="String" Name="SISNumber" Nullable="true" MaxLength="50" />
+    <Property Type="DateTime" Name="BirthDt" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="Suspension" Nullable="true" />
+    <Property Type="Decimal" Name="ExcusedAbsense" Nullable="true" Precision="38" Scale="2" />
+    <Property Type="Decimal" Name="UnexcusedAbsense" Nullable="true" Precision="38" Scale="2" />
+    <Property Type="Int32" Name="Active" Nullable="false" />
+    <Property Type="Decimal" Name="TotalAbsense" Nullable="true" Precision="38" Scale="2" />
+    <Property Type="Decimal" Name="PastTwoWeeksExcusedAbsense" Nullable="true" Precision="38" Scale="2" />
+    <Property Type="Decimal" Name="PastTwoWeeksUnexcusedAbsense" Nullable="true" Precision="38" Scale="2" />
+    <Property Type="Decimal" Name="PastFourWeeksExcusedAbsense" Nullable="true" Precision="38" Scale="2" />
+    <Property Type="Decimal" Name="PastFourWeeksUnexcusedAbsense" Nullable="true" Precision="38" Scale="2" />
+  </ComplexType>
+  <ComplexType Name="sp_GetStudentSuspension_Result">
+    <Property Type="Int32" Name="SuspensionId" Nullable="false" />
+    <Property Type="Int32" Name="StudentId" Nullable="false" />
+    <Property Type="String" Name="SchoolName" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="FirstName" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="LastName" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="Comment" Nullable="false" />
+    <Property Type="Int32" Name="Active" Nullable="false" />
+  </ComplexType>
+  <Association Name="FK_PhoneSchool_X_Phone1">
+    <End Type="MercuryModel.Phone" Role="Phone" Multiplicity="1" />
+    <End Type="MercuryModel.PhoneSchool_X" Role="PhoneSchool_X" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Phone">
+        <PropertyRef Name="PhoneId" />
+      </Principal>
+      <Dependent Role="PhoneSchool_X">
+        <PropertyRef Name="PhoneId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <ComplexType Name="sp_GetStudent_DashboardView_Result">
+    <Property Type="String" Name="SchoolName" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="StudentName" Nullable="false" MaxLength="101" />
+    <Property Type="DateTime" Name="RTTPEnrollmentDt" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="FirstAttendanceDt" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="Grade" Nullable="true" />
+    <Property Type="String" Name="SISNumber" Nullable="true" MaxLength="50" />
+    <Property Type="DateTime" Name="BirthDt" Nullable="true" Precision="23" />
+    <Property Type="String" Name="Suspensions" Nullable="false" MaxLength="3" />
+    <Property Type="Decimal" Name="ExcusedAbsense" Nullable="true" Precision="38" Scale="2" />
+    <Property Type="Decimal" Name="UnexcusedAbsense" Nullable="true" Precision="38" Scale="2" />
+    <Property Type="Decimal" Name="TotalAbsense" Nullable="true" Precision="38" Scale="2" />
+    <Property Type="Int32" Name="Active" Nullable="false" />
+  </ComplexType>
+  <EntityType Name="AcademicTerm">
+    <Key>
+      <PropertyRef Name="AcademicTermID" />
+    </Key>
+    <Property Name="AcademicTermID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AcademicTermName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="AcademicYearID" Type="Int32" Nullable="false" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="ActiveDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="InactiveDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="AcademicYear" Relationship="MercuryModel.FK_AcademicTerm_AcademicYear" FromRole="AcademicTerm" ToRole="AcademicYear" />
+  </EntityType>
+  <EntityType Name="AcademicYear">
+    <Key>
+      <PropertyRef Name="AcademicYearID" />
+    </Key>
+    <Property Name="AcademicYearID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AcademicYearName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="ActiveDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="InactiveDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="AcademicTerms" Relationship="MercuryModel.FK_AcademicTerm_AcademicYear" FromRole="AcademicYear" ToRole="AcademicTerm" />
+  </EntityType>
+  <Association Name="FK_AcademicTerm_AcademicYear">
+    <End Type="MercuryModel.AcademicYear" Role="AcademicYear" Multiplicity="1" />
+    <End Type="MercuryModel.AcademicTerm" Role="AcademicTerm" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AcademicYear">
+        <PropertyRef Name="AcademicYearID" />
+      </Principal>
+      <Dependent Role="AcademicTerm">
+        <PropertyRef Name="AcademicYearID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

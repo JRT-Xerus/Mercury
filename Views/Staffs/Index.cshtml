@@ -1,0 +1,28 @@
+﻿@model IEnumerable<Mercury.sp_GetStaff_Result>
+
+@{
+    ViewBag.Title = "Staff.";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Staff.</h2>
+
+<p>
+    @*@Html.ActionLink("Create New Staff", "Create")*@
+    <a href="" onclick="create_warning();">Create New Staff</a>
+</p>
+@using GridMvc.Html
+
+@Html.Grid(Model).Columns(columns =>
+{
+columns.Add(s => s.StaffId, true);
+columns.Add(s => s.FirstName).Titled("First Name").Filterable(true).SetWidth(350).Sortable(true);
+columns.Add(s => s.LastName).Titled("Last Name").Filterable(true).SetWidth(350).Sortable(true);
+columns.Add(s => s.Title).Titled("Title").Filterable(true).SetWidth(350).Sortable(true);
+columns.Add(s => s.OtherSystemId).Titled("OtherSystemId").Filterable(true).SetWidth(250).Sortable(true);
+columns.Add(s => s.Email).Titled("Email").Filterable(true).SetWidth(350).Sortable(true);
+columns.Add(s => s.PhoneNumber).Titled("Phone Number").Sortable(true).Filterable(true);
+columns.Add(s => s.Ext).Titled("Ext").Sortable(true).Filterable(true);
+columns.Add().Encoded(false).Sanitized(false).RenderValueAs(o => @<button type="submit" style="" onclick="modify_warning();"><span class="glyphicon glyphicon-pencil"></span></button>).SetWidth(20);
+columns.Add().Encoded(false).Sanitized(false).RenderValueAs(o => @<button type="submit" onclick="delete_warning();"><span class="glyphicon glyphicon-trash"></span></button>).SetWidth(20);
+}).WithPaging(15).Filterable(true)

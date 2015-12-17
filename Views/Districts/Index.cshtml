@@ -1,0 +1,31 @@
+﻿@model IEnumerable<Mercury.sp_GetDistricts_Result>
+
+@{
+    ViewBag.Title = "Districts.";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Districts.</h2>
+
+<p>
+    @*@Html.ActionLink("Create New District", "Create")*@
+    <a href="" onclick="create_warning();">Create New District</a>
+</p>
+
+@using GridMvc.Html
+
+@Html.Grid(Model).Columns(columns =>
+           {
+               columns.Add(s => s.DistrictId, true);
+               columns.Add(s => s.DistrictName).Titled("District Name").Filterable(true).SetWidth(110).Sortable(true);
+               columns.Add(s => s.Description).Titled("Description").Filterable(true).SetWidth(110).Sortable(true);
+               columns.Add(s => s.Address1).Titled("Address 1").Sortable(true).Filterable(true);
+               columns.Add(s => s.Address2).Titled("Address 2").Sortable(true).Filterable(true);
+               columns.Add(s => s.City).Titled("City").Sortable(true).Filterable(true);
+               columns.Add(s => s.State).Titled("State").Sortable(true).Filterable(true).SetWidth(20);
+               columns.Add(s => s.PostalCode).Titled("Postal Code").Sortable(true).Filterable(true);
+               columns.Add(s => s.PhoneNumber).Titled("Phone Number").Sortable(true).Filterable(true);
+               columns.Add(s => s.Ext).Titled("Ext").Sortable(true).Filterable(true);
+               columns.Add().Encoded(false).Sanitized(false).RenderValueAs(o => @<button type="submit" style="" onclick="modify_warning();"><span class="glyphicon glyphicon-pencil"></span></button>).SetWidth(20);
+               columns.Add().Encoded(false).Sanitized(false).RenderValueAs(o => @<button type="submit" onclick="delete_warning();"><span class="glyphicon glyphicon-trash"></span></button>).SetWidth(20);
+           }).WithPaging(15).WithMultipleFilters()

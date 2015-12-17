@@ -1,0 +1,115 @@
+﻿@model Mercury.Student
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Student</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SISNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SISNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RTTPEnrollmentDt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RTTPEnrollmentDt)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TransferDt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TransferDt)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstAttendanceDt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FirstAttendanceDt)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DropDt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DropDt)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BirthDt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BirthDt)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Grade)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Grade)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ActiveDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ActiveDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.InactiveDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InactiveDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.School.SchoolName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.School.SchoolName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.StudentID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
